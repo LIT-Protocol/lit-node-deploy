@@ -4,5 +4,5 @@ apt-get/brew install ansible # wherever ansible is supported
 
 # Now set your machine details in `machine-description.yml`, then run
 
-ansible-playbook -i machine-description.yml manzano_upgrade.yml
+ansible-playbook -v -i machine-description.yml manzano_upgrade.yml
 ```
