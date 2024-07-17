@@ -1,0 +1,7 @@
+- name: Reboot the system
+  reboot:
+    msg: "Reboot initiated by Ansible"
+    pre_reboot_delay: 0
+    post_reboot_delay: 30
+    reboot_timeout: 3000
+    test_command: whoami

@@ -1,0 +1,54 @@
+# THIS PLAYBOOK
+# - stops all currently running nodes (YOU WILL GET KICKED)
+# - UPGRADES THE OS
+# - reinstalls lit-os (as if from scratch)
+# - REBOOTS the machine so it comes up with the upgraded kernel
+- name: Upgrade Debian, upgrade Litos, and reboot
+  hosts: all
+  become: yes
+  gather_facts: true
+
+  pre_tasks:
+    - name: Print Kernel Version
+      debug:
+        msg: "Kernel Version is {{ ansible_kernel }}"
+    - name: Print OS Version
+      debug:
+        msg: "OS Version is {{ ansible_distribution }} {{ ansible_distribution_version }}"    
+    - name: Get BIOS Revision
+      become: true
+      command: dmidecode -t bios
+      register: bios_revision
+    - name: Extract BIOS Revision
+      set_fact:
+        bios_revision_line: "{{ bios_revision.stdout_lines | select('search', 'BIOS Revision') | regex_search('([0-9.]+)') }}"
+        bios_vendor_line: "{{ bios_revision.stdout_lines | select('search', 'Vendor') | map('trim') }}"
+    - name: Fail if not Debian 11
+      fail:
+        msg: "This playbook only runs on Debian 11."
+      when: ansible_distribution_version | int >= "12" or ansible_distribution != "Debian"
+    - name: Fail if outdated BIOS
+      fail:
+        msg: "Please manually upgrade your machine's BIOS to 2.15.3 or newer from https://www.dell.com/support/home/en-us/product-support/product/poweredge-r6515/drivers"
+      when: bios_vendor_line is match("American Megatrends International, LLC.) and bios_revision_line < "5.22" or bios_vendor_line is match("Dell Inc.") and bios_revision_line < "2.15.3"
+
+  tasks:
+    # - name: Stop running nodes
+    #   include_tasks: tasks/stop_all_instances.yml
+
+    # - name: Upgrade Debian packages
+    #   include_tasks: tasks/upgrade_debian.yml
+
+    # - name: Upgrade Litos packages
+    #   include_tasks: tasks/upgrade_litos_manzano.yml
+
+    # - name: Reboot the system if upgrades were made
+    #   include_tasks: tasks/reboot.yml
+
+  post_tasks:
+    - name: Print Kernel Version
+      debug:
+        msg: "Kernel Version is {{ ansible_kernel }}"
+    - name: Print OS Version
+      debug:
+        msg: "OS Version is {{ ansible_distribution }} {{ ansible_distribution_version }}"

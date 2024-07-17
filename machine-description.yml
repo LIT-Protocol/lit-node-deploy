@@ -1,0 +1,17 @@
+all:
+  vars:
+    env: dev
+    type: node
+    subnet_id: 5bbcdc3be7ed61cee212f4ec4957a82ebaffcabf
+    root_email: # FILL THIS IN
+    branch-os: develop
+    branch-assets: datil
+  hosts:
+    my-box:
+      provider: ovh   # ovh or leaseweb
+      provider_class: # advance or scale
+      host_ip:        # e.g. 23.111.169.122/29
+      host_gw:        # e.g. 23.111.169.121
+      ansible_host:   # SAME AS HOST_IP
+      guest_ip:       # e.g. 23.111.169.123/29
+      guest_gw:       # e.g. 23.111.169.121

@@ -1,0 +1,29 @@
+---
+- name: List all instances
+  shell: lit os ls | grep "lit os guest instances" -A100 | grep -Eo '^\| [a-f0-9]{8} \|'
+  register: instances_output
+
+- name: Parse instance IDs
+  set_fact:
+    instance_ids: >-
+      {{
+        instances_output.stdout
+        | regex_findall('([a-f0-9]{8})', multiline=True)
+      }}
+
+- name: Debug instance IDs
+  debug:
+    var: instance_ids
+
+- name: Stop each instance
+  command: lit os guest instance stop {{ item }}
+  loop: "{{ instance_ids }}"
+  ignore_errors: true
+
+- name: Disable the instance's systemd service
+  systemd:
+    name: "litos-guest-node-{{ env }}-{{ item }}"
+    enabled: no
+    state: stopped
+  loop: "{{ instance_ids }}"
+  ignore_errors: true

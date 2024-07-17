@@ -1,0 +1,112 @@
+---
+- name: Remove /usr/local/src/amd
+  file:
+    path: /usr/local/src/amd
+    state: absent
+
+- name: Ensure python3 is up to date
+  package:
+    name: python3
+    state: latest
+
+- name: clean python3 caches
+  command: py3clean /
+
+- name: Remove marker files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /var/local/litos-tee-amd.install
+    - /var/local/litos-tee.install
+    - /var/local/lit-cli.install
+    - /var/local/vector-repo.install
+
+- name: Remove all files in /var/cache/salt
+  file:
+    path: /var/cache/salt
+    state: absent
+
+- name: Recreate amd folder
+  file:
+    path: /usr/local/src/amd
+    state: directory
+
+- name: Download new AMDSEV packages
+  get_url:
+    url: https://storage.cloud.google.com/lit-protocol-official-packages/amd-tee-packages_debian-12.tar.gz
+    dest: /usr/local/src/amd/amd-tee-packages_debian-12.tar.gz
+    validate_certs: false
+
+- name: Ensure /root/.salt-local exists
+  file:
+    path: /root/.salt-local
+    state: directory
+
+- name: Set branches in git.sls (create new file)
+  copy:
+    content: |
+        git_repo:
+          lit-os:
+            url: git@github.com:LIT-Protocol/lit-os.git
+            branch:
+              default: main
+              dev: {{ hostvars[inventory_hostname]['branch-os'] }}
+          lit-assets:
+            url: git@github.com:LIT-Protocol/lit-assets.git
+            branch:
+              default: main
+              dev: {{ hostvars[inventory_hostname]['branch-assets'] }}
+    dest: /root/.salt-local/git.sls
+    force: true
+
+- name: Display the updated /root/.salt-local/git.sls
+  command: grep dev /root/.salt-local/git.sls
+  register: git_sls_content
+
+- name: Show git.sls content
+  debug:
+    msg: "{{ git_sls_content.stdout }}"
+
+- name: Remove old lit-os-node files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /root/lit-os-node
+    - /root/lit-os-node.tgz
+    - /root/lit-os-prov
+    - /root/lit-os-prov.tgz
+
+- name: Ensure secrets.sls exists (create manually if it doesnt)
+  stat:
+    path: /root/.salt-local/secrets.sls
+  register: secrets_file
+  failed_when: "not secrets_file.stat.exists"
+
+- name: Download and extract lit-os-node package
+  when: "hostvars[inventory_hostname]['type'] == 'node'"
+  block:
+    - name: Download lit-os-node package
+      get_url:
+        url: https://storage.cloud.google.com/lit-protocol-official-packages/lit-os-node.tar.gz
+        dest: /root/lit-os-node.tar.gz
+        validate_certs: false
+    - name: Extract lit-os-node package
+      unarchive:
+        src: /root/lit-os-node.tar.gz
+        dest: /root
+        remote_src: yes
+    - name: install lit-os in node mode with parameters
+      retries: 2
+      command: >
+        /root/lit-os-node/node/scripts/install.sh
+        --env {{ env }}
+        --subnet-id {{ hostvars[inventory_hostname]['subnet_id'] }}
+        --net4-ip {{ hostvars[inventory_hostname]['host_ip'] }}
+        --net4-gw {{ hostvars[inventory_hostname]['host_gw'] }}
+        --root-email {{ hostvars[inventory_hostname]['root_email'] }}
+        {% if hostvars[inventory_hostname].provider == 'ovh' %}
+        --cloud-provider ovh
+        --cloud-provider-class {{ hostvars[inventory_hostname]['provider-class'] }}
+        {% endif %}
