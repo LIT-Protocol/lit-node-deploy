@@ -89,7 +89,7 @@
   block:
     - name: Download lit-os-prov package
       get_url:
-        url: https://storage.googleapis.com/lit-dev-inofficial-public-trashheap/lit-os-prov.tar.gz
+        url: https://storage.googleapis.com/lit-protocol-official-packages/lit-os-prov.tar.gz
         dest: /root/lit-os-prov.tar.gz
         validate_certs: false
     - name: Extract lit-os-prov package
