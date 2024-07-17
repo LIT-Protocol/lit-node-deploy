@@ -2,12 +2,12 @@ all:
   vars:
     env: dev
     type: node
-    subnet_id: 5bbcdc3be7ed61cee212f4ec4957a82ebaffcabf
+    subnet_id: dec37933239846834b3BfD408913Ed3dbEf6588F
     root_email: # FILL THIS IN
     branch-os: develop
     branch-assets: datil
   hosts:
-    my-box:
+    my-box: # ========= FILL OUT YOUR MACHINE INFO BELOW ================== #
       provider: ovh   # ovh or leaseweb
       provider_class: # advance or scale
       host_ip:        # e.g. 23.111.169.122/29

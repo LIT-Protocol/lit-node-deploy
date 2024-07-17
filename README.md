@@ -1,6 +1,8 @@
 # How do I make it work ?
 ```
-apt-get/brew install ansible
+apt-get/brew install ansible # wherever ansible is supported
 
-ansible-playbook -i machine-description.yml manzano_upgrade.yml 
+# Now set your machine details in `machine-description.yml`, then run
+
+ansible-playbook -i machine-description.yml manzano_upgrade.yml
 ```

@@ -31,6 +31,11 @@
       fail:
         msg: "Please manually upgrade your machine's BIOS to 2.15.3 or newer from https://www.dell.com/support/home/en-us/product-support/product/poweredge-r6515/drivers"
       when: bios_vendor_line is match("American Megatrends International, LLC.) and bios_revision_line < "5.22" or bios_vendor_line is match("Dell Inc.") and bios_revision_line < "2.15.3"
+    - name: Ensure secrets.sls exists (must create manually, follow  https://litprotocol.notion.site/Manzano-Testnet-b12d823343384a8b827cb3d803ee940d?pvs=4)
+      stat:
+        path: /root/.salt-local/secrets.sls
+      register: secrets_file
+      failed_when: "not secrets_file.stat.exists"
 
   tasks:
     # - name: Stop running nodes
