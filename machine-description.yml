@@ -1,17 +1,20 @@
 all:
   vars:
+    ansible_user:  # 1. Set the linux username you use for logging into the host below
+    ansible_ssh_private_key_file:  # 2. Set the path to the ssh key you use to log in to your box, e.g. "~/.ssh/id_ed25519" (with quotes)
     env: dev
     type: node
     subnet_id: dec37933239846834b3BfD408913Ed3dbEf6588F
-    root_email: # FILL THIS IN
+    root_email: # 3. Add your admin E-Mail Address, e.g. foo@bar.com
     branch-os: develop
     branch-assets: datil
   hosts:
-    my-box: # ========= FILL OUT YOUR MACHINE INFO BELOW ================== #
-      provider: ovh   # ovh or leaseweb
-      provider_class: # advance or scale
-      host_ip:        # e.g. 23.111.169.122/29
-      host_gw:        # e.g. 23.111.169.121
-      ansible_host:   # SAME AS HOST_IP
-      guest_ip:       # e.g. 23.111.169.123/29
-      guest_gw:       # e.g. 23.111.169.121
+    my-box:
+      # ========= 4. Fill out your machine info below ================== #
+      provider:  # ovh or leaseweb
+      provider-class:  # advance or scale for OVH, delete this line for leaseweb
+      host_ip:  # e.g. 23.11.170.122/29
+      ansible_host:  # SAME AS HOST_IP but without CIDR ( no /29 )
+      host_gw:  # e.g. 23.11.170.121
+      guest_ip:  # e.g. 23.11.170.123/29
+      guest_gw:  # e.g. 23.11.170.121
