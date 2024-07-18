@@ -1,0 +1,8 @@
+---
+- name: Reboot the host
+  hosts: all
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Reboot the system
+      include_tasks: tasks/reboot.yml
