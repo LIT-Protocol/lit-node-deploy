@@ -1,0 +1,14 @@
+- name: Ensure network_name is provided
+  fail:
+    msg: "The required variable 'network_name' is not provided."
+  when: network_name is not defined
+- name: Check if network_name is valid
+  fail:
+    msg: "Invalid network_name provided. The network_name must be 'datil' or 'datil_test'."
+  when: network_name not in ['datil', 'datil_test']
+- name: Set subnet_id based on network_name
+  set_fact:
+    subnet_id: "{{ 'TODO' if network_name == 'datil' else 'dec37933239846834b3BfD408913Ed3dbEf6588F' if network_name == 'datil_test' else omit }}" # TODO TODO TODO DATIL
+- name: Set subnet_id based on network_name
+  set_fact:
+    env: "{{ 'prod' if network_name == 'datil' else 'dev' if network_name == 'datil_test' else omit }}"

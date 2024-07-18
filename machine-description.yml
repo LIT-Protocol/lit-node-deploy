@@ -2,15 +2,14 @@ all:
   vars:
     ansible_user:  # 1. Set the linux username you use for logging into the host below
     ansible_ssh_private_key_file:  # 2. Set the path to the ssh key you use to log in to your box, e.g. "~/.ssh/id_ed25519" (with quotes)
-    env: dev
+    network_name:  # 3. datil_test or datil
     type: node
-    subnet_id: dec37933239846834b3BfD408913Ed3dbEf6588F
-    root_email: # 3. Add your admin E-Mail Address, e.g. foo@bar.com
+    root_email:  # 4. Add your admin E-Mail Address, e.g. foo@bar.com
     branch-os: develop
     branch-assets: datil
   hosts:
     my-box:
-      # ========= 4. Fill out your machine info below ================== #
+      # ========= 5. Fill out your machine info below ================== #
       provider:  # ovh or leaseweb
       provider-class:  # advance or scale for OVH, delete this line for leaseweb
       host_ip:  # e.g. 23.11.170.122/29

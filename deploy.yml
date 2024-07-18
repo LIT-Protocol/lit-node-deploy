@@ -1,8 +1,9 @@
 # THIS PLAYBOOK
 # - stops all currently running nodes (YOU WILL GET KICKED)
 # - UPGRADES THE OS
-# - reinstalls lit-os (as if from scratch)
-# - REBOOTS the machine so it comes up with the upgraded kernel
+# - (re)installs lit-os (as if from scratch)
+# MANUALLY REBOOT THE MACHINE to finalize the update
+
 - name: Upgrade Debian, upgrade Litos, and reboot
   hosts: all
   become: yes
@@ -53,6 +54,9 @@
             var: ip_a_output.stdout
 
   tasks:
+    - name: set internal variables
+      include_tasks: tasks/set_vars.yml
+
     - name: Stop running nodes
       include_tasks: tasks/stop_all_instances.yml
 
@@ -60,7 +64,7 @@
       include_tasks: tasks/upgrade_debian.yml
 
     - name: Upgrade Litos packages
-      include_tasks: tasks/upgrade_litos_manzano.yml
+      include_tasks: tasks/install_litos.yml
 
   post_tasks:
     - name: Print network info after upgrade
