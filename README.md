@@ -1,8 +1,8 @@
 # How do I make it work ?
 ```
-apt-get/brew install ansible # wherever ansible is supported
+0. `apt-get` or `brew install` ansible # wherever ansible is supported
 
-# Now set your machine details in `machine-description.yml`, then run
+1. Set your machine details in `machine-description.yml`
 
-ansible-playbook -v -i machine-description.yml manzano_upgrade.yml
+2. run `bash upgrade.sh` or `ansible-playbook -v -i machine-description.yml manzano_upgrade.yml`
 ```

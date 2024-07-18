@@ -23,10 +23,6 @@
       set_fact:
         bios_revision_line: "{{ bios_revision.stdout_lines | select('search', 'BIOS Revision') | regex_search('([0-9.]+)') }}"
         bios_vendor_line: "{{ bios_revision.stdout_lines | select('search', 'Vendor') | map('trim') | join('') }}"
-    - name: Fail if not Debian 11
-      fail:
-        msg: "This playbook only runs on Debian 11."
-      when: ansible_distribution_version | int >= 12 or ansible_distribution != "Debian"
     - name: Fail if outdated BIOS
       fail:
         msg: "Please manually upgrade your machine's BIOS\nLeaseweb: 2.15.3 or newer from https://www.dell.com/support/home/en-us/product-support/product/poweredge-r6515/drivers\nOVH: 5.22 or newer"
@@ -47,8 +43,33 @@
     - name: Upgrade Litos packages
       include_tasks: tasks/upgrade_litos_manzano.yml
 
-    - name: Reboot the system if upgrades were made
-      include_tasks: tasks/reboot.yml
+    - name: Print network info before reboot
+      block:
+        - name: Read the /etc/network/interfaces file
+          command: grep 'en' /etc/network/interfaces
+          register: grep_output
+          ignore_errors: yes
+        - name: Print grep output
+          debug:
+            msg: "{{ grep_output.stdout_lines }}"
+        - name: Check status of systemd-networkd service
+          command: systemctl status systemd-networkd
+          register: networkd_status
+          failed_when: false
+        - name: Print status of systemd-networkd service
+          debug:
+            msg: "systemd-networkd status: {{ networkd_status.stdout }}"
+        - name: Check status of networking service
+          command: systemctl status networking
+          register: networking_status
+          failed_when: false
+        - name: Print status of networking service
+          debug:
+            msg: "networking status: {{ networking_status.stdout }}"
+
+    # Note: May be better to do the reboot manually
+    # - name: Reboot the system if upgrades were made
+    #   include_tasks: tasks/reboot.yml
 
   post_tasks:
     - name: Print Kernel Version
