@@ -46,12 +46,3 @@
 - name: Print network devices starting with 'en'
   debug:
     msg: "{{ ansible_facts['interfaces']| select('match', '^en.*') | list }}"
-
-- name: Read the /etc/network/interfaces file
-  command: grep 'en' /etc/network/interfaces
-  register: grep_output
-  ignore_errors: yes
-
-- name: Print grep output
-  debug:
-    msg: "{{ grep_output.stdout_lines }}"

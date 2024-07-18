@@ -37,11 +37,8 @@
       block:
         - name: Read the /etc/network/interfaces file
           command: grep 'en' /etc/network/interfaces
-          register: grep_output
+          register: grep_interfaces_pre
           ignore_errors: yes
-        - name: Print grep output
-          debug:
-            msg: "{{ grep_output.stdout_lines }}"
         - name: Run ip route command
           shell: ip route
           register: ip_route_output
@@ -70,11 +67,8 @@
       block:
         - name: Read the /etc/network/interfaces file
           command: grep 'en' /etc/network/interfaces
-          register: grep_output
+          register: grep_interfaces_post
           ignore_errors: yes
-        - name: Print grep output
-          debug:
-            msg: "{{ grep_output.stdout_lines }}"
         - name: Check status of systemd-networkd service
           command: systemctl status systemd-networkd
           register: networkd_status
@@ -95,3 +89,9 @@
     - name: Print OS Version
       debug:
         msg: "OS Version is {{ ansible_distribution }} {{ ansible_distribution_version }}"
+    - name: COMPARE MANUALLY!! - interfaces pre-update
+      debug:
+        msg: "{{ grep_interfaces_pre.stdout_lines }}"
+    - name: COMPARE MANUALLY!! - interfaces post-update (they should be identical)
+      debug:
+        msg: "{{ grep_interfaces_post.stdout_lines }}"

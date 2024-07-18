@@ -97,7 +97,7 @@
         src: /root/lit-os-node.tar.gz
         dest: /root
         remote_src: yes
-    - name: install lit-os in node mode with parameters
+    - name: install lit-os in node mode
       retries: 2
       command: >
         /root/lit-os-node/node/scripts/install.sh
