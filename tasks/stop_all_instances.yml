@@ -2,6 +2,7 @@
 - name: List all instances
   shell: lit os ls | grep "lit os guest instances" -A100 | grep -Eo '^\| [a-f0-9]{8} \|'
   register: instances_output
+  ignore_errors: true
 
 - name: Parse instance IDs
   set_fact:
@@ -10,6 +11,7 @@
         instances_output.stdout
         | regex_findall('([a-f0-9]{8})', multiline=True)
       }}
+  ignore_errors: true
 
 - name: Debug instance IDs
   debug:
