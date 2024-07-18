@@ -55,7 +55,6 @@
           debug:
             var: ip_a_output.stdout
 
-
   tasks:
     - name: Stop running nodes
       include_tasks: tasks/stop_all_instances.yml
@@ -66,6 +65,7 @@
     - name: Upgrade Litos packages
       include_tasks: tasks/upgrade_litos_manzano.yml
 
+  post_tasks:
     - name: Print network info after upgrade
       block:
         - name: Read the /etc/network/interfaces file
@@ -89,12 +89,6 @@
         - name: Print status of networking service
           debug:
             msg: "networking status: {{ networking_status.stdout }}"
-
-    # Note: May be better to do the reboot manually
-    # - name: Reboot the system if upgrades were made
-    #   include_tasks: tasks/reboot.yml
-
-  post_tasks:
     - name: Print Kernel Version
       debug:
         msg: "Kernel Version is {{ ansible_kernel }}"
