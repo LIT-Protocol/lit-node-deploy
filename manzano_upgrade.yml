@@ -33,6 +33,29 @@
       register: secrets_file
       failed_when: "not secrets_file.stat.exists"
 
+    - name: Print network info before upgrade
+      block:
+        - name: Read the /etc/network/interfaces file
+          command: grep 'en' /etc/network/interfaces
+          register: grep_output
+          ignore_errors: yes
+        - name: Print grep output
+          debug:
+            msg: "{{ grep_output.stdout_lines }}"
+        - name: Run ip route command
+          shell: ip route
+          register: ip_route_output
+        - name: Print ip route output
+          debug:
+            var: ip_route_output.stdout
+        - name: Run ip a command
+          shell: ip a
+          register: ip_a_output
+        - name: Print ip a output
+          debug:
+            var: ip_a_output.stdout
+
+
   tasks:
     - name: Stop running nodes
       include_tasks: tasks/stop_all_instances.yml
@@ -43,7 +66,7 @@
     - name: Upgrade Litos packages
       include_tasks: tasks/upgrade_litos_manzano.yml
 
-    - name: Print network info before reboot
+    - name: Print network info after upgrade
       block:
         - name: Read the /etc/network/interfaces file
           command: grep 'en' /etc/network/interfaces
