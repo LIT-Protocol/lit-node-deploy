@@ -4,16 +4,15 @@ all: # Customize / set the lines with numbered comments
     ansible_ssh_private_key_file:  # 2. Set the path to the ssh key you use to log in to your box, e.g. "~/.ssh/id_ed25519" (with quotes)
     network_name:  # 3. datil_test or datil
     root_email:  # 4. Add your admin E-Mail Address, e.g. foo@bar.com
-    type: node
     branch-os: develop
     branch-assets: datil
   hosts:
     my-box:
       # ========= 5. Fill out your machine info below ================== #
-      provider:  # ovh or leaseweb
-      provider-class:  # advance or scale for OVH, delete this line for leaseweb
-      host_ip:  # e.g. 23.11.170.122/29
-      ansible_host:  # SAME AS HOST_IP but without CIDR ( no /29 )
-      host_gw:  # e.g. 23.11.170.121
-      guest_ip:  # e.g. 23.11.170.123/29
-      guest_gw:  # e.g. 23.11.170.121
+      provider: ovh   # ovh or leaseweb
+      provider-class: scale # advance or scale for OVH, delete this line for leaseweb
+      host_ip: 162.19.90.161/32       # e.g. 23.11.170.122/29
+      ansible_host: 162.19.90.161  # SAME AS HOST_IP but without CIDR ( no /29 )
+      host_gw: 100.64.0.1       # e.g. 23.11.170.121
+      guest_ip: 5.39.15.33/29   # e.g. 23.11.170.123/29
+      guest_gw: 5.39.15.38      # e.g. 23.11.170.121

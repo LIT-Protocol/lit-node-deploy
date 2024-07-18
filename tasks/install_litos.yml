@@ -84,8 +84,7 @@
   register: secrets_file
   failed_when: "not secrets_file.stat.exists"
 
-- name: Download and extract lit-os-node package
-  when: "hostvars[inventory_hostname]['type'] == 'node'"
+- name: Download and install lit-os
   block:
     - name: Download lit-os-node package
       get_url:
