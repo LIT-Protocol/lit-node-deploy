@@ -51,12 +51,12 @@
             url: git@github.com:LIT-Protocol/lit-os.git
             branch:
               default: main
-              dev: {{ hostvars[inventory_hostname]['branch-os'] }}
+              {{ env }}: {{ hostvars[inventory_hostname]['branch-os'] }}
           lit-assets:
             url: git@github.com:LIT-Protocol/lit-assets.git
             branch:
               default: main
-              dev: {{ hostvars[inventory_hostname]['branch-assets'] }}
+              {{ env }}: {{ hostvars[inventory_hostname]['branch-assets'] }}
     dest: /root/.salt-local/git.sls
     force: true
 
