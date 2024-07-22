@@ -96,7 +96,7 @@
         src: /root/lit-os-node.tar.gz
         dest: /root
         remote_src: yes
-    - name: install lit-os in node mode
+    - name: install lit-os in node mode (this can take > 15 minutes, please be patient)
       retries: 2
       command: >
         /root/lit-os-node/node/scripts/install.sh
