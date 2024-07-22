@@ -9,10 +9,15 @@ all: # Customize / set the lines with numbered comments
   hosts:
     my-box:
       # ========= 5. Fill out your machine info below ================== #
-      provider:  # ovh or leaseweb
-      provider-class:  # advance or scale for OVH, delete this line for leaseweb
+      # provider: ovh or leaseweb
+      provider: 
+      # provider-class: advance or scale for OVH, leave empty for leaseweb or others
+      provider-class: 
+      # ansible_host: supply the IP address you are currently using to connect to the box via SSH but without CIDR ( no /29 )
+      ansible_host: 
+      # lit node networking settings below
+      # see https://www.notion.so/litprotocol/Datil-test-Testnet-Node-Provisioning-Guide-6c78bd5e7ebd4b0f8cec1ad78e130be2?pvs=4#34835690f9bb4fbcb6c787d6b2b74152 on what to fill here
       host_ip:  # e.g. 23.11.170.122/29
-      ansible_host:  # SAME AS HOST_IP but without CIDR ( no /29 )
       host_gw:  # e.g. 23.11.170.121
       guest_ip:  # e.g. 23.11.170.123/29
       guest_gw:  # e.g. 23.11.170.121
