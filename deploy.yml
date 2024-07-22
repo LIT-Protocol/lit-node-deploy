@@ -16,19 +16,19 @@
     - name: Print OS Version
       debug:
         msg: "OS Version is {{ ansible_distribution }} {{ ansible_distribution_version }}"    
-    - name: Get BIOS Revision
-      become: true
-      command: dmidecode -t bios
-      register: bios_revision
-    - name: Extract BIOS Revision
-      set_fact:
-        bios_revision_line: "{{ bios_revision.stdout_lines | select('search', 'BIOS Revision') | regex_search('([0-9.]+)') }}"
-        bios_vendor_line: "{{ bios_revision.stdout_lines | select('search', 'Vendor') | map('trim') | join('') }}"
-    - name: Fail if outdated BIOS
-      fail:
-        msg: "Please manually upgrade your machine's BIOS\nLeaseweb: 2.15.3 or newer from https://www.dell.com/support/home/en-us/product-support/product/poweredge-r6515/drivers\nOVH: 5.22 or newer"
-      when: "('American Megatrends International' in bios_vendor_line and bios_revision_line is version('5.22', '<')) or ('Dell Inc' in bios_vendor_line and bios_revision_line is version('2.15', '<'))"
-    - name: Ensure secrets.sls exists (must create manually, follow  https://www.notion.so/litprotocol/Manzano-Testnet-b12d823343384a8b827cb3d803ee940d?pvs=4#91576dffca044107a590e70df29f0e70)
+    # - name: Get BIOS Revision
+    #   become: true
+    #   command: dmidecode -t bios
+    #   register: bios_revision
+    # - name: Extract BIOS Revision
+    #   set_fact:
+    #     bios_revision_line: "{{ bios_revision.stdout_lines | select('search', 'BIOS Revision') | regex_search('([0-9.]+)') }}"
+    #     bios_vendor_line: "{{ bios_revision.stdout_lines | select('search', 'Vendor') | map('trim') | join('') }}"
+    # - name: Fail if outdated BIOS
+    #   fail:
+    #     msg: "Please manually upgrade your machine's BIOS\nLeaseweb: 2.15.3 or newer from https://www.dell.com/support/home/en-us/product-support/product/poweredge-r6515/drivers\nOVH: 5.22 or newer"
+    #   when: "('American Megatrends International' in bios_vendor_line and bios_revision_line is version('5.22', '<')) or ('Dell Inc' in bios_vendor_line and bios_revision_line is version('2.15', '<'))"
+    - name: Ensure secrets.sls exists (must create manually, follow https://www.notion.so/litprotocol/Datil-test-Testnet-Node-Provisioning-Guide-6c78bd5e7ebd4b0f8cec1ad78e130be2?pvs=4#28c6372c37274b609e8866797da8abc5)
       stat:
         path: /root/.salt-local/secrets.sls
       register: secrets_file
