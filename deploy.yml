@@ -98,7 +98,7 @@
     - name: Print network interfaces
       debug:
         var: ip_a_output.stdout
-    - name: COMPARE MANUALLY !!! - interfaces post-update (the file should have interfaces that match the output of "Print network interfaces" above)
+    - name: COMPARE MANUALLY !!! - interfaces post-update (it should show interfaces that match the output of "Print network interfaces" above, ask the team if it doesnt and DO NOT REBOOT)
       debug:
         msg: "{{ grep_interfaces_post.stdout_lines }}"
       changed_when: true # Make yellow to warn this is a manual step
