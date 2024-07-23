@@ -1,0 +1,164 @@
+users:
+  {{ ssh_user }}:
+    active: True
+    name: Not Set
+    email: {{ root_email }}
+    shell: /bin/bash
+    groups:
+      - lit
+      - admin
+    access:
+      - prod
+      - staging
+      - dev
+    features:
+      - rust
+    ssh_keys:
+      - {{ ssh_public_key }}
+{% if network_name == "datil_test" %}
+  mike:
+    active: True
+    name: Mike L
+    email: mike@litprotocol.com
+    shell: /bin/bash
+    groups:
+      - lit
+      - admin
+    access:
+      - prod
+      - staging
+      - dev
+    features:
+      - rust
+    ssh_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyCKHIxBG7XlMpDqyI7GKvNv7UCkdd4mCnEGV98xObH
+  chris:
+    active: True
+    name: Chris C
+    email: chris@litprotocol.com
+    shell: /bin/bash
+    groups:
+      - lit
+      - admin
+    access:
+      - prod
+      - staging
+      - dev
+    features:
+      - rust
+    ssh_keys:
+      - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJBadixwLYNJje+dMIbei9mnAfagGV7EGH1G0sJNaXLP4t3qiJnZpApubSoV/6oEcf3O8MNbPh153VnnrUpYgfA= Lit-Protocol@secretive.h4ckb00k-m1.local
+      - ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBIpMMJlUMi+5301UJyFw2yJX9Cs53RgGKvnODCW/qJGSw9IcoIHxlfdmmE/Dhy82jTKh44K8Ur2FCaXmnwknj59zqrZ7l2jrOC3IuduQ0KrYTp3Sbkyk3acESIBJ7/PURw== Key-For-PIV-Authentication-(chris)@secretive.h4ckb00k-m1.local
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5uQh+KHcXs9LYyhkzBDcZv4HYgjRDzK8eDf+VOQVHi chris@litprotocol.com
+  howard:
+    active: True
+    name: Howard
+    email: howard@litprotocol.com
+    shell: /bin/bash
+    groups:
+      - lit
+      - admin
+    access:
+      - prod
+      - staging
+      - dev
+    features:
+      - rust
+    ssh_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE5Ue8ib58nHNCbWaaZzFSstZVdSu5p6p27ISjz6yhNi howard.tam.95@gmail.com
+      - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFx4XvIefOJOJAVPNeAzT8NolNTt7KLMOP05UboxtGHNwxgkHiQQqulXUz90l6jCwl5/oSCINWiE4yjPmkB+WRU= Git@secretive.Howard’s-MacBook-Pro.local
+  brendon:
+    active: True
+    name: Brendon
+    email: brendon@litprotocol.com
+    shell: /bin/bash
+    groups:
+      - lit
+      - admin
+    access:
+      - staging
+      - dev
+    features:
+      - rust
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCodvWfWQDrahjyOqlFGbZELjtpZwbg6ZA46ihX8ZtNgSdiZ5De9ikrbyTaFnjByGFr9U4yDVVB3VsPeDsl/p/mD6nLtl/9qIXg4tFiuJNrtoVnyVyHnxzV5Jcip70w2CE5tXznkAr0Gmy6qfrqCWCE1X+3imitL1x68+n4jNmtvHhNXGSB1vDpYZmpq3HpL3N/VeJMJX/jJqMLlPm9YBMJh4UFBbeYoMm27qfFhcGjbipBscQoNQgOlLRvgZzFYMLEy4jWjgmWQi+eajxcZfWjlZnfYJO6Z+A5FiekJ6hXBLBrn86Ng1VVfm3+PhuohkJ8qXGwhXzymA9gzDDdJUdS0ZtN6bL54KshKB56G3nehB0TogcQpQPxqFoJxPW7yYq6enhHxpio/F3xCtxiB8Jl3QkJaHPPwmQR9PAgn6gSPZ8QtELmReHjElLUj+3DAhJUflR6yPHqKmTU4eXKMbwWVt/5AZlMtbuU6Mq2V4eeZO0TuIwhG5JyDgAcGXTEBefpt32oT3yAMIsL6sAx0bUyhAlKQRZNV5LND1rjkpSwIEG3LDsSFgtw5aMGWiTIK8kdyFhKTWiK1/Rieau0sbjcCyGEn7aZPK8/1yK8MV204YAjjA/FSp+55pyjzSECUMJ+k+Ku2rM3deJ/PjNuA/F3ZyiB+qlADceWwuisuv9Dzw== brendonpaul@Brendons-MacBook-Pro.local
+  josh:
+    active: True
+    name: Josh Long
+    email: josh@litprotocol.com
+    shell: /bin/bash
+    groups:
+      - lit
+      - admin
+    access:
+      - staging
+      - dev
+    features:
+      - rust
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6xrKK3zK760xHSRxC4WJYQVblgoe9G34CatdMnvvhOUUm4QSPCp1YR6sU8Xahz3h6v0xYzER7Vw+lj65DwSl7zQ3jFKGhUJRF7EPhoDxts35LyAWpT28/zJCiWLTo7M7Dc4vptKY/DrvvxF5poEy6xWZtTf9zv2w9fMJMXsJm77me/+YWS5i2dM9M1ZEAO47tWybHoA0bMxWmiMmfZMWECeWTUFaAFT4kfPfoh84z7T9MHDUig19YS2XpngfxwzAbq43Xfrx2ESyZ6kau+GViBIRzwdhh7lub/Rf6QUmVmmbmc9anq4PxNOKqBV/8M4VHrf00XEcEgkufqQjgO8uZ0865D4TCrzQTjI0nOWXIyggjr8JkJXkdbBLw7m2YPrHQCmLo6cW9UPTrI97Pj8azhgljKu72Iabn/80OsfFnFndSR5kK9go6vMKjrJ3zxmy4OWaZUIEJfWDZ6ynBtHlYut7IkFsSEg3WZ4CmmA6gCs8SeHjLrXCpDODMW0QNVXc= joshlong@joshs-MacBook-Pro.local
+  rahul:
+    active: True
+    name: Rahul
+    email: rahul@litprotocol.com
+    shell: /bin/bash
+    groups:
+      - lit
+      - admin
+    access:
+      - prod
+      - staging
+      - dev
+    features:
+      - rust
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC5mOVi1Jq+enynrmJW14PqNptPi6KJlFFom8YtGKJ/TyXyWSO9/Q84A5NyvMj8kS4bTeCZpGl2f4LK1Z2eqHhIxYW+FvnHseO/Dx6KAABxIPf5dp77AhQymCq3byvbtVWI8c60dkPTVO1kL5113zFvNfjwuPsOSHF3sx4H3GqL9UxHMmvINzbl/0Z/wRsX0bQRcS7973Og9RIoX+fpHgveH8t0C7bI2RMoyr1qTxfdtYIhIc27cLyuPAVVBNtzUsg9v9l9JgCQarkFPjA1Kmve3M3tQDHbk+mU0qcVaPZMPaonn3hpYGjZOi+FLVNVAWAQ9S3G5qyTqeTV0SbE2UlrbMrm62H5WExUasxjeszdQ9V3OnBbP47yMyr5hpwCVc5Jln6HPeX2+MRIb+iX1W8bdBtzSmW5hLX0bs7EDV0nU8VRVh3MjKX9/zxsPhTz0jevXW/WmOLYtRpCUj/LJ2AXf+CuFPt84IOowv0IKlSHiB5JMEovRQfJxfbZm/AmQmE= rahulramesh@Sentinel
+  egeyar:
+    active: True
+    name: Egeyar
+    email: egeyar@litprotocol.com
+    shell: /bin/bash
+    groups:
+      - lit
+      - admin
+    access:
+      - prod
+      - staging
+      - dev
+    features:
+      - rust
+    ssh_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDsZimkfXXuhoVdTJec+ZZX8Tu6xdHuMdzcxmxY9b7np egeyar@litprotocol.com
+  nicholas:
+    active: True
+    name: Nicholas Young
+    email: nicholas@litprotocol.com
+    shell: /bin/bash
+    groups:
+      - lit
+      - admin
+    access:
+      - prod
+      - staging
+      - dev
+    features:
+      - rust
+    ssh_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB39zNOokcjcuwqM6uxwu4PQBir224LbHnYHEGxq8TjV nicholas@litprotocol.com
+  adam:
+    active: True
+    name: Adam Reif
+    email: adam@litprotocol.com
+    shell: /bin/bash
+    groups:
+      - lit
+      - admin
+    access:
+      - prod
+      - staging
+      - dev
+    features:
+      - rust
+    ssh_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIApBWGz5gdYttQgru11P2LM+kKtbJ9uzjaL8h45Q2kHG adam@litprotocol.com
+{% endif %}

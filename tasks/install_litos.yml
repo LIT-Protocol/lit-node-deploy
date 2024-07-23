@@ -43,23 +43,6 @@
     path: /root/.salt-local
     state: directory
 
-- name: Set branches in git.sls (create new file)
-  copy:
-    content: |
-        git_repo:
-          lit-os:
-            url: git@github.com:LIT-Protocol/lit-os.git
-            branch:
-              default: main
-              {{ env }}: {{ hostvars[inventory_hostname]['branch-os'] }}
-          lit-assets:
-            url: git@github.com:LIT-Protocol/lit-assets.git
-            branch:
-              default: main
-              {{ env }}: {{ hostvars[inventory_hostname]['branch-assets'] }}
-    dest: /root/.salt-local/git.sls
-    force: true
-
 - name: Display the updated /root/.salt-local/git.sls
   command: grep dev /root/.salt-local/git.sls
   register: git_sls_content
@@ -78,7 +61,7 @@
     - /root/lit-os-prov
     - /root/lit-os-prov.tgz
 
-- name: Ensure secrets.sls exists (create manually if it doesnt)
+- name: Ensure secrets.sls exists
   stat:
     path: /root/.salt-local/secrets.sls
   register: secrets_file
