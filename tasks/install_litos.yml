@@ -107,5 +107,5 @@
         --root-email {{ hostvars[inventory_hostname]['root_email'] }}
         {% if hostvars[inventory_hostname].provider == 'ovh' %}
         --cloud-provider ovh
-        --cloud-provider-class {{ hostvars[inventory_hostname]['provider-class'] }}
+        --cloud-provider-class {{ hostvars[inventory_hostname]['provider_class'] }}
         {% endif %}

@@ -11,8 +11,8 @@ all: # Customize / set the lines with numbered comments
       # ========= 5. Fill out your machine info below ================== #
       # provider: ovh or leaseweb
       provider: 
-      # provider-class: advance or scale for OVH, leave empty for leaseweb or others
-      provider-class: 
+      # provider_class: advance or scale for OVH, leave empty for leaseweb or others
+      provider_class: 
       # ansible_host: supply the IP address you are currently using to connect to the box via SSH but without CIDR ( no /29 )
       ansible_host: 
       # lit node networking settings below
