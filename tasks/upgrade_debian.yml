@@ -46,3 +46,8 @@
 - name: Print network devices starting with 'en'
   debug:
     msg: "{{ ansible_facts['interfaces']| select('match', '^en.*') | list }}"
+
+- name: Delete legacy package repo gpg keyring
+  file:
+    path: /etc/apt/trusted.gpg
+    state: absent
