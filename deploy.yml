@@ -19,8 +19,7 @@
     - name: Print network info before upgrade
       block:
         - name: Read the /etc/network/interfaces file
-          command: grep 'bond-slaves' /etc/network/interfaces
-          register: grep_interfaces_pre
+          command: cat /etc/network/interfaces
           ignore_errors: yes
         - name: Run ip route command
           shell: ip route
@@ -62,6 +61,7 @@
         - name: Read the /etc/network/interfaces file
           command: grep 'bond-slaves' /etc/network/interfaces
           register: grep_interfaces_post
+          when: 'provider_class is defined and provider_class == "advance"'
         - name: Check status of systemd-networkd service
           command: systemctl status systemd-networkd
           register: networkd_status
@@ -91,6 +91,7 @@
     - name: COMPARE MANUALLY !!! - interfaces post-update (it should show interfaces that match the output of "Print network interfaces" above, ask the team if it doesnt and DO NOT REBOOT)
       debug:
         msg: "{{ grep_interfaces_post.stdout_lines }}"
+      when: 'provider_class is defined and provider_class == "advance"'
       changed_when: true # Make yellow to warn this is a manual step
     - name: OVH/ADVANCE **MANUAL** STEP - Enable OLA (if fresh install)!!
       debug:
