@@ -7,7 +7,7 @@
       - ssh_user is defined and ssh_user | length > 0
       - ssh_public_key is defined and ssh_public_key | length > 0
       - provider is defined and provider | length > 0
-      - (provider == 'ovh' and provider_class in ["advance", "scale"]) or provider_class == ""
+      # - (provider == 'ovh' and provider_class in ["advance", "scale"]) or provider_class == ""
       - ansible_host is defined and ansible_host | length > 0
       - host_ip is defined and host_ip | length > 0
       - host_gw is defined and host_gw | length > 0
