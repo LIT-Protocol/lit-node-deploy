@@ -61,11 +61,13 @@
         - name: Read the /etc/network/interfaces file
           command: grep 'bond-slaves' /etc/network/interfaces
           register: grep_interfaces_post
+          changed_when: false
           when: 'provider_class is defined and provider_class == "advance"'
         - name: Check status of systemd-networkd service
           command: systemctl status systemd-networkd
           register: networkd_status
           failed_when: false
+          changed_when: false
         - name: Print status of systemd-networkd service
           debug:
             msg: "systemd-networkd status: {{ networkd_status.stdout }}"
@@ -73,6 +75,7 @@
           command: systemctl status networking
           register: networking_status
           failed_when: false
+          changed_when: false
         - name: Print status of networking service
           debug:
             msg: "networking status: {{ networking_status.stdout }}"
@@ -85,6 +88,7 @@
     - name: Get network interfaces
       shell: ip a | grep '^[0-9]*:' | cut -d':' -f2 --output-delimiter=":"
       register: ip_a_output
+      changed_when: false
     - name: Print network interfaces
       debug:
         var: ip_a_output.stdout
