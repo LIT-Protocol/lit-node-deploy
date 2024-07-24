@@ -33,6 +33,10 @@
         - name: Print ip a output
           debug:
             var: ip_a_output.stdout
+        - name: Print network devices starting with 'en'
+          debug:
+            msg: "{{ ansible_facts['interfaces']| select('match', '^en.*') | list }}"
+
     - name: run pre-deploy checks
       include_tasks: tasks/prechecks.yml
 

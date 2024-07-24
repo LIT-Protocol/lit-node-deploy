@@ -37,17 +37,3 @@
 - name: Autoremove unnecessary packages
   apt:
     autoremove: yes
-
-- name: Run lit os update
-  command: lit os update
-  register: grep_output
-  ignore_errors: yes # Ignore because lit os might not even be installed yet
-
-- name: Print network devices starting with 'en'
-  debug:
-    msg: "{{ ansible_facts['interfaces']| select('match', '^en.*') | list }}"
-
-- name: Delete legacy package repo gpg keyring
-  file:
-    path: /etc/apt/trusted.gpg
-    state: absent
