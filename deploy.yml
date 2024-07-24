@@ -53,6 +53,9 @@
     - name: Upgrade Litos packages
       include_tasks: tasks/install_litos.yml
 
+    - name: set boot order (boot debian first)
+      include_tasks: tasks/set_boot_order.yml
+
   post_tasks:
     - name: Print network info after upgrade
       block:

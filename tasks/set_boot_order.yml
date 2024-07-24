@@ -1,0 +1,48 @@
+---
+- name: Ensure efibootmgr is installed
+  apt:
+    name: efibootmgr
+    state: present
+    update_cache: yes
+
+- name: Run efibootmgr to get current boot order
+  command: efibootmgr
+  register: efibootmgr_output
+  changed_when: false
+
+- name: Parse current boot order
+  set_fact:
+    current_boot_order: "{{ efibootmgr_output.stdout | regex_search('BootOrder: ([0-9A-F,]+)', '\\1') | join('')}}"
+
+- name: Display current boot order
+  debug:
+    msg: "Updated Boot Order: {{ current_boot_order }}"
+
+- name: Get debian boot entries
+  set_fact:
+    debian_boot_entries: "{{ efibootmgr_output.stdout | regex_findall('Boot([0-9A-F]+).*debian') }}"
+
+- name: Create debian boot entries string
+  set_fact:
+    debian_boot_entries_string: "{{ debian_boot_entries | join(',') }}"
+
+- name: Create non-debian boot entries string
+  set_fact:
+    non_debian_boot_entries: "{{ current_boot_order.split(',') | reject('match', debian_boot_entries | join('|')) | join(',') }}"
+
+- name: Set new boot order with Debian entries first
+  set_fact:
+    new_boot_order: "{{ debian_boot_entries_string }},{{ non_debian_boot_entries }}"
+
+- name: Update boot order
+  command: "efibootmgr -o {{ new_boot_order }}"
+  when: new_boot_order is defined
+
+- name: Verify boot order update
+  command: efibootmgr
+  register: efibootmgr_verify
+  changed_when: false
+
+- name: Display new boot order
+  debug:
+    msg: "Updated Boot Order: {{ efibootmgr_verify.stdout | regex_search('BootOrder: ([0-9A-F,]+)', '\\1') }}"
