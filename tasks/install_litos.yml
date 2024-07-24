@@ -3,9 +3,11 @@
   apt:
     name:
       - salt-minion
-      - grafana
+      - grafana-agent
       - vector
-      - docker
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
     state: absent
 
 - name: Delete legacy package repos
