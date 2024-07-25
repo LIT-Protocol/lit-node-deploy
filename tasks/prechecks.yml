@@ -15,6 +15,11 @@
       - guest_gw is defined and guest_gw | length > 0
     fail_msg: "Error: Some required information was not provided, please revisit machine-description.yml"
 
+- name: Delete old vector repo
+  file:
+    path: /etc/apt/sources.list.d/timber-vector.list
+    state: absent
+
 - name: Ensure dmidecode is installed
   apt:
     name: dmidecode
