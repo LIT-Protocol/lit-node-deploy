@@ -8,7 +8,13 @@
   when: network_name not in ['datil', 'datil_test']
 - name: Set subnet_id based on network_name
   set_fact:
-    subnet_id: "{{ '21d636d95eE71150c0c3Ffa79268c989a329d1CE' if network_name == 'datil' else 'dec37933239846834b3BfD408913Ed3dbEf6588F' if network_name == 'datil_test' else omit }}" # TODO TODO TODO DATIL
+    subnet_id: "{{ '21d636d95eE71150c0c3Ffa79268c989a329d1CE' if network_name == 'datil' else 'dec37933239846834b3BfD408913Ed3dbEf6588F' if network_name == 'datil_test' else omit }}"
 - name: Set subnet_id based on network_name
   set_fact:
     env: "{{ 'prod' if network_name == 'datil' else 'dev' if network_name == 'datil_test' else omit }}"
+- name: Set lit-assets branch
+  set_fact:
+    branch_assets: datil
+- name: Set lit-os branch
+  set_fact:
+    branch_os: datil
