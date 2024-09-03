@@ -40,7 +40,7 @@
 - name: Fail if outdated BIOS (leaseweb / DELL)
   fail:
     msg: "Your BIOS is v{{ bios_revision_line }}. Please manually upgrade your leaseweb machine's BIOS to 2.16 or newer (see guide)"
-  when: "'leaseweb' in provider and bios_revision_line is version('2.16.0', '<')"
+  when: "'leaseweb' in provider and bios_revision_line is version('2.16', '<')"
 - name: MANUALLY check if BIOS update is needed (other vendors)
   debug:
     msg: "Your BIOS is v{{ bios_revision_line }}. We cannot automatically verify your BIOS, please ENSURE that you have a BIOS with the most recent AMD AGESA available installed"
