@@ -44,14 +44,15 @@
     - name: set internal variables
       include_tasks: tasks/set_vars.yml
 
-    - name: Stop running nodes
-      include_tasks: tasks/stop_all_instances.yml
+    # NOTE:  Do not stop running instances as that could cause the node to be kicked if active
+    # - name: Stop running nodes
+    #   include_tasks: tasks/stop_all_instances.yml
 
     - name: Write salt files
       include_tasks: tasks/write_salt_files.yml
 
-    - name: Upgrade Debian packages
-      include_tasks: tasks/upgrade_debian.yml
+    # - name: Upgrade Debian packages
+    #   include_tasks: tasks/upgrade_debian.yml
 
     - name: Upgrade Litos packages
       include_tasks: tasks/install_litos.yml
