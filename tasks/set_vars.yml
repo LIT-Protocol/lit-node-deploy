@@ -14,7 +14,7 @@
     env: "{{ 'prod' if network_name == 'datil' else 'dev' if network_name == 'datil_test' else omit }}"
 - name: Set lit-assets branch
   set_fact:
-    branch_assets: "{{ 'release-datil-prod-2024-09-09' if network_name == 'datil' else 'release-datil-test-2024-09-09' if network_name == 'datil_test' else omit }}"
+    branch_assets: "{{ 'release-datil-prod-2024-09-19' if network_name == 'datil' else 'release-datil-test-2024-09-19' if network_name == 'datil_test' else omit }}"
 - name: Set lit-os branch
   set_fact:
-    branch_os: "{{ 'release-datil-prod-2024-09-09' if network_name == 'datil' else 'release-datil-test-2024-09-09' if network_name == 'datil_test' else omit }}"
+    branch_os: "{{ 'release-datil-prod-2024-09-19' if network_name == 'datil' else 'release-datil-test-2024-09-19' if network_name == 'datil_test' else omit }}"
