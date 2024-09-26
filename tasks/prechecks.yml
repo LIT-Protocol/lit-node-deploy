@@ -2,7 +2,12 @@
 - name: Check if vars have been provided
   ansible.builtin.assert:
     that:
-      - network_name is defined and network_name in ["datil_test", "datil"]
+      - network_name is defined and network_name in ["datil_test", "datil", "custom"]
+      - network_name != "custom" or (
+          branch_os is defined and branch_os | length > 0 and
+          branch_assets is defined and branch_assets | length > 0 and
+          subnet_id is defined and subnet_id | length > 0
+        )
       - root_email is defined and root_email | length > 0
       - ssh_user is defined and ssh_user | length > 0
       - ssh_public_key is defined and ssh_public_key | length > 0

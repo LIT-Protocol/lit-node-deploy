@@ -4,14 +4,14 @@
   when: network_name is not defined
 - name: Check if network_name is valid
   fail:
-    msg: "Invalid network_name provided. The network_name must be 'datil' or 'datil_test'."
-  when: network_name not in ['datil', 'datil_test']
+    msg: "Invalid network_name provided. The network_name must be 'datil', 'datil_test', or 'custom'."
+  when: network_name not in ['datil', 'datil_test', 'custom']
 - name: Set subnet_id based on network_name
   set_fact:
     subnet_id: "{{ '21d636d95eE71150c0c3Ffa79268c989a329d1CE' if network_name == 'datil' else 'dec37933239846834b3BfD408913Ed3dbEf6588F' if network_name == 'datil_test' else omit }}"
 - name: Set subnet_id based on network_name
   set_fact:
-    env: "{{ 'prod' if network_name == 'datil' else 'dev' if network_name == 'datil_test' else omit }}"
+    env: "{{ 'prod' if network_name == 'datil' else 'dev' if network_name == 'datil_test' else 'dev' }}"
 - name: Set lit-assets branch
   set_fact:
     branch_assets: "{{ 'release-datil-prod-2024-09-19' if network_name == 'datil' else 'release-datil-test-2024-09-19' if network_name == 'datil_test' else omit }}"
