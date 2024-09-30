@@ -16,27 +16,20 @@
 
 - name: Display current boot order
   debug:
-    msg: "Updated Boot Order: {{ current_boot_order }}"
+    msg: "Old Boot Order: {{ current_boot_order }}"
 
 - name: Get debian boot entries
   set_fact:
     debian_boot_entries: "{{ efibootmgr_output.stdout | regex_findall('Boot([0-9A-F]+).*debian') }}"
+  failed_when: debian_boot_entries | length == 0
 
 - name: Create debian boot entries string
   set_fact:
-    debian_boot_entries_string: "{{ debian_boot_entries | join(',') }}"
+    debian_boot_entries_string: "{{ debian_boot_entries | join(',') if debian_boot_entries | length > 1 else debian_boot_entries | first }}"
 
-- name: Create non-debian boot entries string
-  set_fact:
-    non_debian_boot_entries: "{{ current_boot_order.split(',') | reject('match', debian_boot_entries | join('|')) | join(',') }}"
-
-- name: Set new boot order with Debian entries first
-  set_fact:
-    new_boot_order: "{{ debian_boot_entries_string }},{{ non_debian_boot_entries }}"
-
-- name: Update boot order
-  command: "efibootmgr -o {{ new_boot_order }}"
-  when: new_boot_order is defined
+- name: Update boot order (force boot of debian entries)
+  command: "efibootmgr -o {{ debian_boot_entries_string }}"
+  when: debian_boot_entries_string is defined
 
 - name: Verify boot order update
   command: efibootmgr
