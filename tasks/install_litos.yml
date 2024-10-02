@@ -81,8 +81,10 @@
   with_items:
     - /root/lit-os-node
     - /root/lit-os-node.tgz
+    - /root/lit-os-node.tar.gz
     - /root/lit-os-prov
     - /root/lit-os-prov.tgz
+    - /root/lit-os-prov.tar.gz
 
 - name: Ensure secrets.sls exists
   stat:
