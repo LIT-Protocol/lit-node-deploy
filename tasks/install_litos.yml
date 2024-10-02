@@ -2,6 +2,7 @@
 - name: remove old custom packages
   apt:
     name:
+      - salt-common
       - salt-minion
       - grafana-agent
       - vector
@@ -9,12 +10,6 @@
       - docker-ce-cli
       - containerd.io
     state: absent
-
-- name: Ensure salt-minion systemd service is not masked (from previous install) if it exists
-  systemd:
-    name: "salt-minion"
-    masked: no
-  ignore_errors: true
 
 - name: Delete legacy package repos
   file:
@@ -108,7 +103,6 @@
         dest: /root
         remote_src: yes
     - name: install lit-os in node mode (this can take > 15 minutes, please be patient)
-      retries: 2
       command: >
         /root/lit-os-node/node/scripts/install.sh
         --env {{ env }}
