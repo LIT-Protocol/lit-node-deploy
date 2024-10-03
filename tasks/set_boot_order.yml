@@ -6,6 +6,7 @@
     update_cache: yes
 
 - name: Run efibootmgr to get current boot order
+  become: true
   command: efibootmgr
   register: efibootmgr_output
   changed_when: false
@@ -28,10 +29,12 @@
     debian_boot_entries_string: "{{ debian_boot_entries | join(',') if debian_boot_entries | length > 1 else debian_boot_entries | first }}"
 
 - name: Update boot order (force boot of debian entries)
+  become: true
   command: "efibootmgr -o {{ debian_boot_entries_string }}"
   when: debian_boot_entries_string is defined
 
 - name: Verify boot order update
+  become: true
   command: efibootmgr
   register: efibootmgr_verify
   changed_when: false

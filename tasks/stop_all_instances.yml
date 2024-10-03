@@ -1,5 +1,6 @@
 ---
 - name: List all instances
+  become: true
   shell: lit os ls | grep "lit os guest instances" -A100 | grep -Eo '^\| [a-f0-9]{8} \|'
   register: instances_output
   ignore_errors: true
@@ -18,11 +19,13 @@
     var: instance_ids
 
 - name: Stop each instance
+  become: true
   command: lit os guest instance stop {{ item }}
   loop: "{{ instance_ids }}"
   ignore_errors: true
 
 - name: Disable the instance's systemd service
+  become: true
   systemd:
     name: "litos-guest-node-{{ env }}-{{ item }}"
     enabled: no
