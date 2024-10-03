@@ -108,6 +108,7 @@
           dest: /root
           remote_src: yes
       - name: install lit-os in node mode (this can take > 15 minutes, please be patient)
+        retries: 3 # retries are needed because the salt bootstrap script often fails on the first run ( Failed to run install_debian_check_services()!!! )
         command: >
           /root/lit-os-node/node/scripts/install.sh
           --env {{ env }}
