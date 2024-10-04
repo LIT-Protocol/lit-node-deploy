@@ -44,7 +44,7 @@
           dest: /root/.salt-local/
           extra_opts:
             - "-P"
-            - "thisisforDATIL"
+            - "{{ tar_decrypt }}"
       - name: cleanup
         ansible.builtin.file:
           state: absent

@@ -1,5 +1,7 @@
 all: # Customize / set the lines with numbered comments
   vars:
+    # Paste the tar_decrypt value from the provisioning guide
+    tar_decrypt: 
     # NOTE: Anything until the hosts section is your personal information, no need to share it with the lit team
     ansible_user:  # 1. Set the linux username you use for logging into the host below (this is idential to `ssh_user`, unless you're doing a fresh install, then it's the initial user - DO NOT USE root )
     ansible_ssh_private_key_file:  # 2. Set the path to the ssh key you use to log in to your box, e.g. "~/.ssh/id_ed25519" (with quotes)
