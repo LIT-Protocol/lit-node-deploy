@@ -23,4 +23,4 @@
 
     - name: Set lit-os branch
       set_fact:
-        branch_os: "{{ 'release-datil-prod-2024-10-22' if network_name == 'datil' else 'release-datil-test-2024-09-19' if network_name == 'datil_test' }}"
+        branch_os: "{{ 'release-datil-prod-2024-10-30' if network_name == 'datil' else 'release-datil-test-2024-10-30' if network_name == 'datil_test' }}"
