@@ -2,35 +2,46 @@
 - name: Write Salt files
   become: true
   block:
-  - name: Delete old vector repo
-    file:
-      path: /etc/apt/sources.list.d/timber-vector.list
-      state: absent
-  - name: Update apt repository cache
-    apt:
-      update_cache: yes
-  - name: Upgrade all packages to the latest version
-    apt:
-      upgrade: safe
-    register: upgrade_result
-    until: upgrade_result is succeeded
-    retries: 5
-    delay: 30
-  - name: Replace 'bullseye' with 'bookworm' in /etc/apt/sources.list
-    ansible.builtin.replace:
-      path: /etc/apt/sources.list
-      regexp: 'bullseye'
-      replace: 'bookworm'
-      backup: no
-  - name: Update apt repository cache after modifying sources.list
-    apt:
-      update_cache: yes
-  - name: Perform distribution upgrade
-    apt:
-      upgrade: dist
-    register: dist_upgrade_result
-    until: dist_upgrade_result is succeeded
-    retries: 5
-  - name: Autoremove unnecessary packages
-    apt:
-      autoremove: yes
+    - name: Delete old vector repo
+      file:
+        path: /etc/apt/sources.list.d/timber-vector.list
+        state: absent
+    - name: Remove outdated Salt repo
+      command: mv /etc/apt/sources.list.d/salt.list /tmp/salt.list
+      ignore_errors: true
+    - name: Install new Salt repo
+      shell: |
+        curl -fsSL https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public | sudo tee /etc/apt/keyrings/salt-archive-keyring-2023.pgp
+        echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.pgp arch=amd64] https://packages.broadcom.com/artifactory/saltproject-deb/ stable main" | sudo tee /etc/apt/sources.list.d/salt.list
+        apt-get update
+    - name: Cleanup old Salt repo from temp storage
+      command: rm /tmp/salt.list
+      ignore_errors: true
+    - name: Update apt repository cache
+      apt:
+        update_cache: yes
+    - name: Upgrade all packages to the latest version
+      apt:
+        upgrade: safe
+      register: upgrade_result
+      until: upgrade_result is succeeded
+      retries: 5
+      delay: 30
+    - name: Replace 'bullseye' with 'bookworm' in /etc/apt/sources.list
+      ansible.builtin.replace:
+        path: /etc/apt/sources.list
+        regexp: "bullseye"
+        replace: "bookworm"
+        backup: no
+    - name: Update apt repository cache after modifying sources.list
+      apt:
+        update_cache: yes
+    - name: Perform distribution upgrade
+      apt:
+        upgrade: dist
+      register: dist_upgrade_result
+      until: dist_upgrade_result is succeeded
+      retries: 5
+    - name: Autoremove unnecessary packages
+      apt:
+        autoremove: yes
