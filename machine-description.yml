@@ -5,7 +5,7 @@ all: # Customize / set the lines with numbered comments
     # NOTE: Anything until the hosts section is your personal information, no need to share it with the lit team
     ansible_user:  # 1. Set the linux username you use for logging into the host below (this is idential to `ssh_user`, unless you're doing a fresh install, then it's the initial user - DO NOT USE root )
     ansible_ssh_private_key_file:  # 2. Set the path to the ssh key you use to log in to your box, e.g. "~/.ssh/id_ed25519" (with quotes)
-    network_name:  # 3. datil_test or datil
+    network_name:  # 3. datil_test, datil or datil_clone
     root_email:  # 4. Add your admin E-Mail Address, e.g. foo@bar.com
     ssh_user:  # 5. Set the username you want to use for SSH connections to your box after lit-os installation is complete (please don't use root, you can always `sudo`)
     # 6. Set the public key (in quotes) that matches the ansible_ssh_private_key_file above, the user you set in 5. will be able to log in with that key after install completes
