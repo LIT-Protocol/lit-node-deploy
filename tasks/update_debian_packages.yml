@@ -1,0 +1,20 @@
+---
+- name: Update apt repository cache
+  apt:
+    update_cache: yes
+
+- name: Upgrade all packages to the latest version
+  apt:
+    upgrade: safe
+  register: upgrade_result
+  until: upgrade_result is succeeded
+  retries: 5
+  delay: 10
+
+# NOTE: apt-get seems to hold the lock for a bit after exiting which leads to
+# Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend)
+- name: Autoremove unnecessary packages
+  delay: 5
+  retries: 2
+  apt:
+    autoremove: yes

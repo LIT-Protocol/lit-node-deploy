@@ -1,10 +1,9 @@
 # THIS PLAYBOOK
-# - stops all currently running nodes (YOU WILL GET KICKED)
-# - UPGRADES THE OS
-# - (re)installs lit-os (as if from scratch)
+# - Upgrades Debian Packages
+# - (re)installs lit-os including host-side tooling (as if from scratch)
 # MANUALLY REBOOT THE MACHINE to finalize the update
 
-- name: Update/Upgrade Debian, deploy/upgrade lit-os
+- name: Update Debian Packages, deploy/upgrade lit-os
   hosts: all
   become: yes
   gather_facts: true
@@ -15,7 +14,7 @@
         msg: "Kernel Version is {{ ansible_kernel }}"
     - name: Print OS Version
       debug:
-        msg: "OS Version is {{ ansible_distribution }} {{ ansible_distribution_version }}"    
+        msg: "OS Version is {{ ansible_distribution }} {{ ansible_distribution_version }}"
     - name: Print network info before upgrade
       block:
         - name: Read the /etc/network/interfaces file
@@ -44,17 +43,20 @@
     - name: set internal variables
       include_tasks: tasks/set_vars.yml
 
+    - name: Write salt files
+      include_tasks: tasks/write_salt_files.yml
+
     # NOTE:  Do not stop running instances as that could cause the node to be kicked if active
     # - name: Stop running nodes
     #   include_tasks: tasks/stop_all_instances.yml
 
-    - name: Write salt files
-      include_tasks: tasks/write_salt_files.yml
+    - name: Cleanup state from previous litos install
+      include_tasks: tasks/cleanup_previous_litos_install.yml
 
     - name: Upgrade Debian packages
-      include_tasks: tasks/upgrade_debian.yml
+      include_tasks: tasks/update_debian_packages.yml
 
-    - name: Upgrade Litos packages
+    - name: Deploy (or upgrade) LitOS
       include_tasks: tasks/install_litos.yml
 
     - name: set boot order (boot debian first)

@@ -1,55 +1,57 @@
-- name: Write Salt files
-  become: true
+- name: Create the directory for the sls files
+  ansible.builtin.file:
+    path: "/root/.salt-local"
+    state: directory
+
+- name: Copy defaults.sls file
+  ansible.builtin.template:
+    src: files/defaults.sls.j2
+    dest: "/root/.salt-local/defaults.sls"
+    mode: "0644"
+    force: true
+
+- name: Copy security.sls file
+  ansible.builtin.copy:
+    src: files/security.sls
+    dest: "/root/.salt-local/security.sls"
+    mode: "0644"
+    force: true
+
+- name: Deploy users.sls file
+  ansible.builtin.template:
+    src: files/users.sls.j2
+    dest: "/root/.salt-local/users.sls"
+    mode: "0644"
+    force: true
+
+- name: Deploy git.sls file
+  ansible.builtin.template:
+    src: files/git.sls.j2
+    dest: "/root/.salt-local/git.sls"
+    mode: "0644"
+    force: true
+
+- name: Deploy secrets.sls file
   block:
-    - name: Create the directory for the sls files
+    - name: Download archive for node type
+      get_url:
+        url: https://storage.googleapis.com/lit-protocol-official-packages/saltcreds.zip
+        dest: /root/.salt-local/saltcreds.zip
+        validate_certs: false
+        force: true
+    - name: Install unzip
+      package:
+        name: unzip
+        state: latest
+    - name: unzip
+      unarchive:
+        remote_src: yes
+        src: /root/.salt-local/saltcreds.zip
+        dest: /root/.salt-local/
+        extra_opts:
+          - "-P"
+          - "{{ tar_decrypt }}"
+    - name: cleanup
       ansible.builtin.file:
-        path: "/root/.salt-local"
-        state: directory
-    - name: Copy defaults.sls file
-      ansible.builtin.copy:
-        src: files/defaults.sls
-        dest: "/root/.salt-local/defaults.sls"
-        mode: "0644"
-        force: true
-    - name: Copy security.sls file
-      ansible.builtin.copy:
-        src: files/security.sls
-        dest: "/root/.salt-local/security.sls"
-        mode: "0644"
-        force: true
-    - name: Deploy users.sls file
-      ansible.builtin.template:
-        src: files/users.sls.j2
-        dest: "/root/.salt-local/users.sls"
-        mode: "0644"
-        force: true
-    - name: Deploy git.sls file
-      ansible.builtin.template:
-        src: files/git.sls.j2
-        dest: "/root/.salt-local/git.sls"
-        mode: "0644"
-        force: true
-    - name: Deploy secrets.sls file
-      block:
-        - name: Download archive
-          get_url:
-            url: https://storage.googleapis.com/lit-protocol-official-packages/saltcreds.zip
-            dest: /root/.salt-local/saltcreds.zip
-            validate_certs: false
-            force: true
-        - name: Install unzip
-          package:
-            name: unzip
-            state: latest
-        - name: unzip
-          unarchive:
-            remote_src: yes
-            src: /root/.salt-local/saltcreds.zip
-            dest: /root/.salt-local/
-            extra_opts:
-              - "-P"
-              - "{{ tar_decrypt }}"
-        - name: cleanup
-          ansible.builtin.file:
-            state: absent
-            path: /root/.salt-local/saltcreds.zip
+        state: absent
+        path: /root/.salt-local/saltcreds.zip
