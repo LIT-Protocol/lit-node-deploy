@@ -87,3 +87,12 @@
     - /root/lit-os-node
     - /root/lit-os-node.tgz
     - /root/lit-os-node.tar.gz
+
+- name: Remove outdated custom openssl binary, libc64.conf, and /usr/local/lib64
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /usr/local/bin/openssl
+    - /etc/ld.so.conf.d/libc64.conf
+    - /usr/local/lib64

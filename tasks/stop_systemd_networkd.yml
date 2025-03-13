@@ -1,0 +1,28 @@
+---
+- name: Check if networking service exists and is running
+  command: systemctl is-active networking
+  register: networking_status
+  changed_when: false
+  failed_when: false
+
+# we only disable systemd-networkd if networking is active so we don't lose network access
+
+- name: Check if systemd-networkd service exists
+  command: systemctl list-unit-files systemd-networkd.service
+  register: networkd_exists
+  changed_when: false
+  failed_when: false
+  when: networking_status.stdout == 'active'
+
+- name: Mask and stop systemd-networkd service
+  systemd:
+    name: systemd-networkd
+    state: stopped
+    enabled: false
+    masked: true
+  when: networkd_exists.rc == 0 and 'systemd-networkd.service' in networkd_exists.stdout
+  register: stop_networkd
+
+- name: Restart networking service if systemd-networkd was stopped
+  command: systemctl restart networking
+  when: stop_networkd is changed

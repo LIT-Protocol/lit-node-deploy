@@ -1,0 +1,25 @@
+---
+# prevents https://litprotocol.slack.com/archives/C07CQHYEVAA/p1725585988769189?thread_ts=1725578109.285489&cid=C07CQHYEVAA
+- name: Ensure /etc/vector/vector.yaml is not present
+  file:
+    path: /etc/vector/vector.yaml
+    state: absent
+  register: vector_config
+
+- name: Restart vector service if config was removed
+  systemd:
+    name: vector
+    state: restarted
+  when: vector_config.changed
+
+- name: Ensure lit-node-operator is enabled
+  systemd:
+    name: lit-node-operator
+    enabled: yes
+    state: started
+
+- name: Stop and disable systemd-networkd if it exists
+  include_tasks: tasks/stop_systemd_networkd.yml
+
+- name: set boot order (boot debian first)
+  include_tasks: tasks/set_boot_order.yml

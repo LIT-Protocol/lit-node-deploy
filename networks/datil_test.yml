@@ -1,0 +1,6 @@
+---
+# Network configuration for datil_test network
+subnet_id: "dec37933239846834b3BfD408913Ed3dbEf6588F"
+env: "dev"
+branch_assets: "release-datil-test-2025-03-05"
+branch_os: "release-datil-test-2025-03-05" 

@@ -1,0 +1,6 @@
+---
+# Network configuration for datil_clone network
+subnet_id: "5758aDa5a1dC05e659eF0B5062fbcF093Ec572D1"
+env: "prod"
+branch_assets: "release-datil-prod-2024-10-22"
+branch_os: "release-datil-prod-2024-10-22" 

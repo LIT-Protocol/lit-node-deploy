@@ -40,15 +40,13 @@
       include_tasks: tasks/prechecks.yml
 
   tasks:
-    - name: set internal variables
-      include_tasks: tasks/set_vars.yml
+    - name: Include network-specific variables
+      include_vars:
+        file: "networks/{{ network_name }}.yml"
+      when: network_name != 'custom'
 
     - name: Write salt files
       include_tasks: tasks/write_salt_files.yml
-
-    # NOTE:  Do not stop running instances as that could cause the node to be kicked if active
-    # - name: Stop running nodes
-    #   include_tasks: tasks/stop_all_instances.yml
 
     - name: Cleanup state from previous litos install
       include_tasks: tasks/cleanup_previous_litos_install.yml
@@ -59,8 +57,8 @@
     - name: Deploy (or upgrade) LitOS
       include_tasks: tasks/install_litos.yml
 
-    - name: set boot order (boot debian first)
-      include_tasks: tasks/set_boot_order.yml
+    - name: Execute post_install task
+      include_tasks: tasks/post_install.yml
 
   post_tasks:
     - name: Print network info after upgrade

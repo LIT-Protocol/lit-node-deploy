@@ -1,44 +1,53 @@
----
 - name: Ensure efibootmgr is installed
   apt:
     name: efibootmgr
     state: present
     update_cache: yes
 
-- name: Run efibootmgr to get current boot order
+- block:
+    - name: Run efibootmgr to get current boot order
+      command: efibootmgr
+      register: efibootmgr_output
+      changed_when: false
+    - name: Parse current boot order
+      set_fact:
+        current_boot_order: "{{ efibootmgr_output.stdout | regex_search('BootOrder: ([0-9A-F,]+)', '\\1') | join('')}}"
+    - name: Display current boot order
+      debug:
+        msg: "Old Boot Order: {{ current_boot_order }}"
+    - name: Get debian boot entries
+      set_fact:
+        debian_boot_entries: "{{ efibootmgr_output.stdout | regex_findall('Boot([0-9A-F]+).*debian') }}"
+      failed_when: debian_boot_entries | length == 0
+    - name: Create debian boot entries string
+      set_fact:
+        debian_boot_entries_string: "{{ debian_boot_entries | join(',') if debian_boot_entries | length > 1 else debian_boot_entries | first }}"
+    - name: Update boot order (force boot of debian entries)
+      command: "efibootmgr -o {{ debian_boot_entries_string }}"
+      when: debian_boot_entries_string is defined
+    - name: Verify boot order update
+      command: efibootmgr
+      register: efibootmgr_verify
+      changed_when: false
+    - name: Display new boot order
+      debug:
+        msg: "Updated Boot Order: {{ efibootmgr_verify.stdout | regex_search('BootOrder: ([0-9A-F,]+)', '\\1') }}"
   become: true
-  command: efibootmgr
-  register: efibootmgr_output
-  changed_when: false
+  when: "'ovh' not in provider or 'advance' not in provider_class"
 
-- name: Parse current boot order
-  set_fact:
-    current_boot_order: "{{ efibootmgr_output.stdout | regex_search('BootOrder: ([0-9A-F,]+)', '\\1') | join('')}}"
-
-- name: Display current boot order
-  debug:
-    msg: "Old Boot Order: {{ current_boot_order }}"
-
-- name: Get debian boot entries
-  set_fact:
-    debian_boot_entries: "{{ efibootmgr_output.stdout | regex_findall('Boot([0-9A-F]+).*debian') }}"
-  failed_when: debian_boot_entries | length == 0
-
-- name: Create debian boot entries string
-  set_fact:
-    debian_boot_entries_string: "{{ debian_boot_entries | join(',') if debian_boot_entries | length > 1 else debian_boot_entries | first }}"
-
-- name: Update boot order (force boot of debian entries)
+# OVH/Advance machines are "special" forget the boot order if set as above
+- block:
+    - name: Delete boot entry 0000 if it exists
+      command: "efibootmgr -b 0000 -B"
+      ignore_errors: true
+    - name: Create a new boot entry
+      command: "efibootmgr -v --create --disk /dev/nvme0n1 --part 1 --label 'test' --loader '\\EFI\\DEBIAN\\SHIMX64.EFI'"
+    - name: Verify boot order update
+      command: efibootmgr
+      register: efibootmgr_verify
+      changed_when: false
+    - name: Display new boot order
+      debug:
+        msg: "Updated Boot Order: {{ efibootmgr_verify.stdout | regex_search('BootOrder: ([0-9A-F,]+)', '\\1') }}"
   become: true
-  command: "efibootmgr -o {{ debian_boot_entries_string }}"
-  when: debian_boot_entries_string is defined
-
-- name: Verify boot order update
-  become: true
-  command: efibootmgr
-  register: efibootmgr_verify
-  changed_when: false
-
-- name: Display new boot order
-  debug:
-    msg: "Updated Boot Order: {{ efibootmgr_verify.stdout | regex_search('BootOrder: ([0-9A-F,]+)', '\\1') }}"
+  when: "'ovh' in provider and 'advance' in provider_class"
