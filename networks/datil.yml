@@ -2,5 +2,5 @@
 # Network configuration for datil network
 subnet_id: "21d636d95eE71150c0c3Ffa79268c989a329d1CE"
 env: "prod"
-branch_assets: "release-datil-prod-2025-03-07"
-branch_os: "release-datil-prod-2025-03-07" 
+branch_assets: "release-datil-prod-2025-05-12"
+branch_os: "release-datil-prod-2025-05-12"
