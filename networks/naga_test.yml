@@ -1,0 +1,6 @@
+---
+# Network configuration for datil network
+subnet_id: "1970fD3E2054043eB2c1dDF09fA600c497D9A80d"
+env: "dev"
+branch_assets: "release-naga-test-2025-05-28"
+branch_os: "release-naga-test-2025-05-28"
