@@ -1,9 +1,17 @@
 ---
 - name: Download new AMDSEV packages
   get_url:
-    url: https://storage.googleapis.com/lit-protocol-official-packages/amd-tee-packages_debian-12.tar.gz
+    # For 'datil' networks, use the old 6.9-rc kernels (compat with sev5 based sev-snp-utils v1.x)
+    # For newer networks, use the 6.11/6.13 kernels (compat with sev6 based sev-snp-utils v2.600.x)
+    url: >-
+      {% if 'datil' in network_name | join(',') %}
+      https://storage.googleapis.com/lit-protocol-official-packages/amd-tee-packages_debian-12.tar.gz
+      {% else %}
+      https://storage.googleapis.com/lit-protocol-official-packages/naga/naga_amd-tee-packages_debian-12-250503.tar.gz
+      {% endif %}
     dest: /usr/local/src/amd/amd-tee-packages_debian-12.tar.gz
     validate_certs: false
+    force: yes
 
 - name: Get /root/.salt-local/git.sls (must exist here)
   command: cat /root/.salt-local/git.sls
@@ -18,6 +26,14 @@
     path: /root/.salt-local/secrets.sls
   register: secrets_file
   failed_when: "not secrets_file.stat.exists"
+
+- name: Pre-create /run/motd
+  become: yes
+  ansible.builtin.file:
+    path: /run/motd
+    state: touch
+    mode: "0644"
+  ignore_errors: yes
 
 - name: Download and install lit-os-node package
   block:

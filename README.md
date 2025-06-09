@@ -4,7 +4,7 @@ Do the following on a machine that is _different_ from the machine you are going
 1. `apt-get install ansible` or `brew install ansible`
 2. Set your machine details in `machine-description.yml`
 3. run `bash deploy.sh` or `ansible-playbook -v -i machine-description.yml deploy.yml`
-4. If you did an initial deployment, **the user you use to SSH into the box may have changed** during the above step depending on what you have set for `ansible_user` and `ssh_user`, so you may need to adjust the `ansible_user` var.
+4. If you did an initial deployment, **the user you use to SSH into the box may have changed** during the above step depending on what you have set for `ansible_user` and `ssh_user`, so you may need to adjust the `ansible_user` var to regain access afterwards.
 5. ensure all is looking fine, and then finally run `bash reboot.sh`, wait up to 20 minutes for the machine to be accessible via ssh again
 
 NOTE for `OVH ADVANCE` class devices:
