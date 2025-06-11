@@ -35,7 +35,7 @@
   block:
     - name: Download archive for node type
       get_url:
-        url: https://storage.googleapis.com/lit-protocol-official-packages/saltcreds.zip
+        url: "{{ saltcreds_url }}"
         dest: /root/.salt-local/saltcreds.zip
         validate_certs: false
         force: true

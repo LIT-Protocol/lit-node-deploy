@@ -1,1 +1,3 @@
 deploy*.log
+machine-description*.yml
+!machine-description.example.yml
