@@ -14,7 +14,7 @@ all: # Customize / set the lines with numbered comments
   hosts:
     my-box:
       # ========= 7. Fill out your machine info below and share it with the lit team ================== #
-      # provider: ovh or leaseweb
+      # provider: ovh, leaseweb, cherryserver
       provider: 
       # provider_class: advance or scale for OVH, leave empty for leaseweb or others
       provider_class: 
