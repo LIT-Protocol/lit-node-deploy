@@ -11,6 +11,7 @@
         )
       - root_email is defined and root_email | length > 0
       - ssh_user is defined and ssh_user | length > 0
+      - ssh_user not in ["lit", "admin", "root", "adam", "abhishek", "chris", "rahul", "howard", "brendon", "mike" ]
       - ssh_public_key is defined and ssh_public_key | length > 0
       - provider is defined and provider | length > 0
       # - (provider == 'ovh' and provider_class in ["advance", "scale"]) or provider_class == ""
