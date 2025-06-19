@@ -61,7 +61,7 @@
       include_tasks: tasks/post_install.yml
 
   handlers:
-    - include: handlers/main.yml
+    - include_tasks: handlers/main.yml
 
   post_tasks:
     - name: Print network info after upgrade
