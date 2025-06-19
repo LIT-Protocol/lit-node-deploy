@@ -60,6 +60,9 @@
     - name: Execute post_install task
       include_tasks: tasks/post_install.yml
 
+  handlers:
+    - include: handlers/main.yml
+
   post_tasks:
     - name: Print network info after upgrade
       block:
