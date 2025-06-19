@@ -1,0 +1,27 @@
+---
+- name: notify reboot needed
+  debug:
+    msg: |
+      ⚠️  REBOOT REQUIRED ⚠️
+
+      A reboot is needed to complete the network configuration changes.
+      Please reboot the system manually after the playbook completes.
+
+      This is required because systemd-networkd was stopped and networking
+      service changes require a full system reboot to take effect properly.
+
+- name: notify manual step for advance class machines
+  debug:
+    msg: |
+      🔍 ADVANCE PROVIDER MANUAL VERIFICATION REQUIRED 🔍
+
+      Interfaces post-update:
+      {{ grep_interfaces_post.stdout_lines | default('No output available') }}
+
+      Please manually compare the network interfaces shown above with the
+      expected configuration. If the interfaces don't match the expected
+      output, contact the team and DO NOT REBOOT the system or you may lose network access.
+
+      🔧 OVH/ADVANCE MANUAL STEP REQUIRED 🔧
+      Enable OLA - if this is a fresh install - by following the testnet guide now:
+      https://www.notion.so/litprotocol/Datil-test-Testnet-Node-Provisioning-Guide-6c78bd5e7ebd4b0f8cec1ad78e130be2?pvs=4#22de9bba0e7e49108509a5d60b8f6aaa
