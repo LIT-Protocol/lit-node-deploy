@@ -1,30 +1,32 @@
 all: # Customize / set the lines with numbered comments
   vars:
     # Paste the tar_decrypt value from the provisioning guide
-    tar_decrypt: 
+    tar_decrypt:
     # NOTE: Anything until the hosts section is your personal information, no need to share it with the lit team
-    ansible_user:  # 1. Set the linux username you use for logging into the host below (this is idential to `ssh_user`, unless you're doing a fresh install, then it's the initial user - DO NOT USE root )
-    ansible_ssh_private_key_file:  # 2. Set the path to the ssh key you use to log in to your box, e.g. "~/.ssh/id_ed25519" (with quotes)
-    network_name:  # 3. naga_test, datil_test, datil or datil_clone
-    root_email:  # 4. Add your admin E-Mail Address, e.g. foo@bar.com
+    ansible_user: # 1. Set the linux username you use for logging into the host below (this is idential to `ssh_user`, unless you're doing a fresh install, then it's the initial user - DO NOT USE root )
+    ansible_ssh_private_key_file: # 2. Set the path to the ssh key you use to log in to your box, e.g. "~/.ssh/id_ed25519" (with quotes)
+    network_name: # 3. naga_test, datil_test, datil or datil_clone
+    root_email: # 4. Add your admin E-Mail Address, e.g. foo@bar.com
     # 5. Set the username you want to use for SSH connections to your box after lit-os installation is complete
     # Some values are disallowed here, including: `root`, `admin`, `lit`)
     ssh_user:
     # 6. Set the public key (in quotes) that matches the ansible_ssh_private_key_file above, the user you set in 5. will be able to log in with that key after install completes
-    # e.g. ssh_public_key: "ssh-ed25519 AAAAC3NzaC1lZgI1NTE5AAAAI2pBWGz5gdYttQgru11f27M+kKtbJ9uzjaL8d45Q23Hp me@nowhere.com" 
-    ssh_public_key: 
+    # e.g. ssh_public_key: "ssh-ed25519 AAAAC3NzaC1lZgI1NTE5AAAAI2pBWGz5gdYttQgru11f27M+kKtbJ9uzjaL8d45Q23Hp me@nowhere.com"
+    ssh_public_key:
+    # 7. (Required) Provide your ZeroSSL API key.
+    zerossl_api_key:
   hosts:
     my-box:
-      # ========= 7. Fill out your machine info below and share it with the lit team ================== #
+      # ========= 8. Fill out your machine info below and share it with the lit team ================== #
       # provider: ovh, leaseweb, cherryserver
-      provider: 
+      provider:
       # provider_class: advance or scale for OVH, leave empty for leaseweb or others
-      provider_class: 
+      provider_class:
       # ansible_host: supply the IP address you are currently using to connect to the box via SSH but without CIDR ( no /29 )
-      ansible_host: 
+      ansible_host:
       # lit node networking settings below
       # see https://www.notion.so/litprotocol/Datil-test-Testnet-Node-Provisioning-Guide-6c78bd5e7ebd4b0f8cec1ad78e130be2?pvs=4#34835690f9bb4fbcb6c787d6b2b74152 on what to fill here
-      host_ip:  # e.g. 23.11.170.122/29
-      host_gw:  # e.g. 23.11.170.121
-      guest_ip:  # e.g. 23.11.170.123/29
-      guest_gw:  # e.g. 23.11.170.121
+      host_ip: # e.g. 23.11.170.122/29
+      host_gw: # e.g. 23.11.170.121
+      guest_ip: # e.g. 23.11.170.123/29
+      guest_gw: # e.g. 23.11.170.121
