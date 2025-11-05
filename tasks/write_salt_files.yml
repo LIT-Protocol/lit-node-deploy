@@ -51,6 +51,11 @@
         extra_opts:
           - "-P"
           - "{{ tar_decrypt }}"
+    - name: Set node-specific zerossl api key
+      ansible.builtin.lineinfile:
+        path: /root/.salt-local/secrets.sls
+        line: "zerossl_api_key: {{ zerossl_api_key }}"
+        create: true
     - name: cleanup
       ansible.builtin.file:
         state: absent
