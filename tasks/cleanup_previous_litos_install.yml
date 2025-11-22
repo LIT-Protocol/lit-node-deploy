@@ -73,12 +73,6 @@
     path: /usr/local/src/amd
     state: directory
 
-- name: Download new AMDSEV packages
-  get_url:
-    url: https://storage.googleapis.com/lit-protocol-official-packages/amd-tee-packages_debian-12.tar.gz
-    dest: /usr/local/src/amd/amd-tee-packages_debian-12.tar.gz
-    validate_certs: false
-
 - name: Remove old lit-os-node files
   file:
     path: "{{ item }}"
