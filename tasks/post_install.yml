@@ -12,11 +12,10 @@
     state: restarted
   when: vector_config.changed
 
-- name: Ensure lit-node-operator is enabled
+- name: Ensure lit-node-operator is enabled (it may not be actually running without a node present)
   systemd:
     name: lit-node-operator
     enabled: yes
-    state: started
 
 - name: Stop and disable systemd-networkd if it exists
   include_tasks: tasks/stop_systemd_networkd.yml
