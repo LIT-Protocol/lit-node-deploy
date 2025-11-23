@@ -3,7 +3,7 @@
   ansible.builtin.assert:
     that:
       - tar_decrypt is defined and tar_decrypt | length > 0
-      - network_name is defined and network_name in ["naga_test", "datil_test", "datil", "datil_clone", "custom"]
+      - network_name is defined and network_name in ["naga_test", "datil_test", "datil", "datil_clone", "naga_proto", "naga_prod", "custom"]
       - network_name != "custom" or (
         branch_os is defined and branch_os | length > 0 and
         branch_assets is defined and branch_assets | length > 0 and
@@ -11,7 +11,8 @@
         )
       - root_email is defined and root_email | length > 0
       - ssh_user is defined and ssh_user | length > 0
-      - ssh_user not in ["lit", "admin", "root", "adam", "abhishek", "chris", "rahul", "howard", "brendon", "mike" ]
+      - ssh_user not in ["lit", "admin", "root"]
+      - network_name in ["datil", "naga_proto", "naga_prod"] or ssh_user not in ["adam", "abhishek", "chris", "howard", "brendon", "mike"]
       - ssh_public_key is defined and ssh_public_key | length > 0
       - zerossl_api_key is defined and zerossl_api_key | length > 0
       - provider is defined and provider | length > 0

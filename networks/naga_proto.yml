@@ -1,0 +1,7 @@
+---
+# Network configuration for naga_proto network
+subnet_id: "28759afC5989B961D0A8EB236C9074c4141Baea1"
+env: "prod"
+branch_assets: "network-naga-proto"
+branch_os: "network-naga-proto"
+saltcreds_url: "https://storage.googleapis.com/lit-protocol-official-packages/saltcreds-naga-proto.zip"
