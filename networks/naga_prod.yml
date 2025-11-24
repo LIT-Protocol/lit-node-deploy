@@ -1,0 +1,7 @@
+---
+# Network configuration for naga_proto network
+subnet_id: "<TBD>"
+env: "prod"
+branch_assets: "<TBD>"
+branch_os: "<TBD>"
+saltcreds_url: "<TBD>"
