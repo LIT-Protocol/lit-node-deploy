@@ -1,7 +1,7 @@
 ---
 # Network configuration for naga_proto network
-subnet_id: "<TBD>"
-env: "prod"
-branch_assets: "<TBD>"
-branch_os: "<TBD>"
-saltcreds_url: "<TBD>"
+subnet_id: 8a861B3640c1ff058CCB109ba11CA3224d228159
+env: prod
+branch_assets: release-naga-prod-2025-11-25
+branch_os: release-naga-prod-2025-11-25
+saltcreds_url: https://storage.googleapis.com/lit-protocol-official-packages/saltcreds-naga-prod.zip
