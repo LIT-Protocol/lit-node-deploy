@@ -13,7 +13,9 @@ all: # Customize / set the lines with numbered comments
     # 6. Set the public key (in quotes) that matches the ansible_ssh_private_key_file above, the user you set in 5. will be able to log in with that key after install completes
     # e.g. ssh_public_key: "ssh-ed25519 AAAAC3NzaC1lZgI1NTE5AAAAI2pBWGz5gdYttQgru11f27M+kKtbJ9uzjaL8d45Q23Hp me@nowhere.com"
     ssh_public_key:
-    # 7. (Required) Provide the API key to a PAID ZeroSSL account.
+    # 7. (Required) Provide the API key to a PAID ZeroSSL account (Basic is sufficient, as of 12/2025 it's 12.99 USD per month or 9.99 if paid annually).
+    # While a free account will work to initially start a node,  it will break on upgrades or after a few months
+    # and your node may be slashed!
     zerossl_api_key:
   hosts:
     my-box:
