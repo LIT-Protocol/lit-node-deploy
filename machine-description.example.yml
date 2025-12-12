@@ -16,6 +16,7 @@ all: # Customize / set the lines with numbered comments
     # 7. (Required) Provide the API key to a PAID ZeroSSL account (Basic is sufficient, as of 12/2025 it's 12.99 USD per month or 9.99 if paid annually).
     # While a free account will work to initially start a node,  it will break on upgrades or after a few months
     # and your node may be slashed!
+    # Note that you can use the same API key for all nodes you control
     zerossl_api_key:
   hosts:
     my-box:
