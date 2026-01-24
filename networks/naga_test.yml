@@ -1,7 +1,9 @@
 ---
 # Network configuration for naga_test network
-subnet_id: "1970fD3E2054043eB2c1dDF09fA600c497D9A80d"
-env: "dev"
-branch_assets: "release-naga-test-2025-06-10"
-branch_os: "release-naga-test-2025-06-10"
-saltcreds_url: "https://storage.googleapis.com/lit-protocol-official-packages/saltcreds-naga-test.zip"
+subnet_id: 1970fD3E2054043eB2c1dDF09fA600c497D9A80d
+env: dev
+repo_os_url: git@github.com:LIT-Protocol/lit-host.git
+repo_assets_url: git@github.com:LIT-Protocol/lit-peer.git
+branch_assets: release-naga-test-2025-06-10
+branch_os: release-naga-test-2025-06-10
+saltcreds_url: https://storage.googleapis.com/lit-protocol-official-packages/saltcreds-naga-test.zip

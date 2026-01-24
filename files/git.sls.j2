@@ -1,11 +1,11 @@
 git_repo:
   lit-os:
-    url: git@github.com:LIT-Protocol/lit-host.git
+    url: {{ hostvars[inventory_hostname]['repo_os_url'] }}
     branch:
       default: main
       {{ env }}: {{ hostvars[inventory_hostname]['branch_os'] }}
   lit-assets:
-    url: git@github.com:LIT-Protocol/lit-peer.git
+    url: {{ hostvars[inventory_hostname]['repo_assets_url'] }}
     branch:
       default: main
       {{ env }}: {{ hostvars[inventory_hostname]['branch_assets'] }}
