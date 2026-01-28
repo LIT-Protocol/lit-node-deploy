@@ -4,7 +4,7 @@
     # For 'datil' networks, use the old 6.9-rc kernels (compat with sev5 based sev-snp-utils v1.x)
     # For newer networks, use the 6.11/6.13 kernels (compat with sev6 based sev-snp-utils v2.600.x)
     url: >-
-      {% if 'datil' in network_name | join(',') %}
+      {% if 'datil' in network_name %}
       https://storage.googleapis.com/lit-protocol-official-packages/amd-tee-packages_debian-12.tar.gz
       {% else %}
       https://storage.googleapis.com/lit-protocol-official-packages/naga/naga_amd-tee-packages_debian-12-250503.tar.gz
